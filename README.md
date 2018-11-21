@@ -9,16 +9,11 @@ However, if you open up the same webpage (http://localhost:8000/index.html) in i
 ## Running the app
 
 ```sh
-git clone https://github.com/ccorcos/react-native-demo.git
-cd react-native-demo
-git checkout safe-area-inset-bug
-npm install
+git clone https://github.com/ccorcos/WkWebView-Safe-Area-Inset-Bug
+cd WkWebView-Safe-Area-Inset-Bug
 # Server the index.html file
 python -m SimpleHTTPServer 8000
-# Start react native
-npm start
 # Open Xcode and run the app.
-open ios/chetapp.xcodeproj
+open WebViewBug.xcodeproj
 ```
 
-open WebViewBug.xcodeproj/
