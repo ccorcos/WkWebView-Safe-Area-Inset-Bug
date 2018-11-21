@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<meta
+			name="viewport"
+			content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+		/>
+		<style>
+			html,
+			body {
+				padding: 0;
+				margin: 0;
+			}
+			body {
+				/* iPhone X Padding */
+				border: 1px solid blue;
+				padding-left: env(safe-area-inset-left);
+				padding-right: env(safe-area-inset-right);
+				padding-top: env(safe-area-inset-top);
+				padding-bottom: env(safe-area-inset-bottom);
+			}
+			div {
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="initial-inset"></div>
+		<div id="window-loaded-inset"></div>
+		<div id="dom-loaded-inset"></div>
+		<div id="react-loaded-inset"></div>
+		<div id="window-resize-inset"></div>
+		<div id="document-resize-inset"></div>
+		<div id="poll-inset"></div>
+		<script>
+			function measure() {
+				var div = document.createElement("div")
+				div.style.visibility = "hidden"
+				document.body.appendChild(div)
+				div.style.width = "0px"
+				div.style.paddingLeft = "env(safe-area-inset-left)"
+				const left = div.offsetWidth
+				div.style.paddingLeft = "env(safe-area-inset-right)"
+				const right = div.offsetWidth
+				div.style.paddingLeft = "env(safe-area-inset-top)"
+				const top = div.offsetWidth
+				div.style.paddingLeft = "env(safe-area-inset-bottom)"
+				const bottom = div.offsetWidth
+				document.body.removeChild(div)
+				return [
+					"top: " + top,
+					"bottom: " + bottom,
+					"left: " + left,
+					"right: " + right,
+				].join("\n")
+			}
+
+			const initialDiv = document.getElementById("initial-inset")
+			initialDiv.innerText = "Initial:\n" + measure()
+
+			const windowLoadedDiv = document.getElementById("window-loaded-inset")
+			window.addEventListener("load", () => {
+				windowLoadedDiv.innerText = "Window Loaded:\n" + measure()
+			})
+
+			const domLoadedDiv = document.getElementById("dom-loaded-inset")
+			document.addEventListener("DOMContentLoaded", () => {
+				domLoadedDiv.innerText = "Dom Loaded:\n" + measure()
+			})
+
+			const reactLoadedDiv = document.getElementById("react-loaded-inset")
+			document.addEventListener("react-loaded", () => {
+				reactLoadedDiv.innerText = "React Loaded:\n" + measure()
+			})
+
+			const windowResizeDiv = document.getElementById("window-resize-inset")
+			window.addEventListener("resize", () => {
+				windowResizeDiv.innerText = "Window Resize:\n" + measure()
+			})
+
+			const documentResizeDiv = document.getElementById("document-resize-inset")
+			document.addEventListener("resize", () => {
+				documentResizeDiv.innerText = "Document Resize:\n" + measure()
+			})
+
+			const pollDiv = document.getElementById("poll-inset")
+			setInterval(() => {
+				pollDiv.innerText = "Poll:\n" + measure()
+			})
+		</script>
+	</body>
+</html>
